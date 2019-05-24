@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    links:
+      - rabbitmq:rabbitmq
+    # command: bash -c "cd src/gateway && uvicorn --host 0.0.0.0 main:main --reload"
+    command: bash -c "cd src && gunicorn --chdir gateway main:app --bind 0.0.0.0:8000 --worker-class aiohttp.GunicornWebWorker --reload"
+    volumes:
+      - ./src:/app/src
+    ports:
+      - "8000:8000"
+    environment:
+      - BROKER_URL=amqp://myuser:mypass@rabbitmq:5672/myvhost
+
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    ports:
+      - "8031:15672"
+      - "5672:5672"
+      - "5671:5671"
+    environment:
+      - RABBITMQ_DEFAULT_PASS=mypass
+      - RABBITMQ_DEFAULT_USER=myuser
+      - RABBITMQ_DEFAULT_VHOST=myvhost
+
+  worker:
+    build: .
+    links:
+      - rabbitmq:rabbitmq
+    command: bash -c "celery -A src.consumer worker --app=src.consumer:celery_app -l info -P eventlet -c 1000"
+    environment:
+      - CELERY_BROKER_URL=amqp://myuser:mypass@rabbitmq:5672/myvhost
