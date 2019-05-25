@@ -3,6 +3,14 @@
 ## Installation
 You need to have docker and docker-compose
 
+1. rename `docker-compose.yml.sample` to `docker-compose.yml`
+2. change value for the following envs:
+	- FROM_EMAIL= your email address
+	- EMAIL_PASS= your email password
+	- SMTP_HOST= your email host
+	- SMTP_PORT= your email host's port
+	- FROM_NAME= your name
+
 ## Run
 
 `docker-compose up`

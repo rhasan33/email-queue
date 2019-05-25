@@ -32,8 +32,8 @@ services:
     command: bash -c "celery -A src.consumer worker --app=src.consumer:celery_app -l info -P eventlet -c 1000"
     environment:
       - CELERY_BROKER_URL=amqp://myuser:mypass@rabbitmq:5672/myvhost
-      - FROM_EMAIL=rhasan.uci@gmail.com
-      - EMAIL_PASS=16031989
-      - SMTP_HOST=smtp.gmail.com
-      - SMTP_PORT=587
-      - FROM_NAME=Rakib Hasan Amiya
+      - FROM_EMAIL=your-email@host.com
+      - EMAIL_PASS=your-email-password
+      - SMTP_HOST=smtp.host.com
+      - SMTP_PORT=smtp-port
+      - FROM_NAME=Your-Name

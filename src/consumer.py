@@ -2,8 +2,8 @@ import os
 from time import sleep
 from celery import Celery, bootsteps
 from kombu import Consumer, Exchange, Queue
-from .send_sms import mailer
 import logging
+from .send_email import mailer
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +27,7 @@ class EmailConsumer(bootsteps.ConsumerStep):
     def handle_message(self, body, message):
         data = body.get("kwargs")
         mailer(data["to_email"], data["subject"], data["body"])
+        logger.info("email sent.")
         message.ack()
 
 celery_app.steps['consumer'].add(EmailConsumer)
