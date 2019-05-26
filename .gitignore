@@ -3,3 +3,4 @@ __pycache__
 run.sh
 *.pyc
 *.yml
+test.py

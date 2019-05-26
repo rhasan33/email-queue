@@ -1,16 +1,13 @@
 import os
 from aiohttp import web
 from kombu import Connection, Producer, Exchange, Queue
+from helpers import create_queue
 
 PIORITY_CONFIG = {
     "high": 9,
     "medium": 5,
     "low": 1
 }
-
-# create exchange and queue
-exchange = Exchange('telenor-health', type='direct')
-email_queue = Queue(name='email-sending-queue', exchange=exchange, routing_key='send-email')
 
 # task transporter
 def transport_task(key, queue, priority, kwargs={}):
@@ -34,7 +31,7 @@ def transport_task(key, queue, priority, kwargs={}):
                 payload,
                 retry=True,
                 retry_policy=retry_policy,
-                exchange=exchange,
+                exchange=queue.exchange,
                 routing_key=queue.routing_key,
                 declare=[queue],
                 priority=PIORITY_CONFIG[priority]
@@ -51,6 +48,10 @@ async def send_email(request):
         "subject": body.get("subject"),
         "body": body.get("body")
     }
+    queue_data = body.get("queue_data")
+    exchange_data = body.get("exchange_data")
+    email_queue = create_queue(queue_data=queue_data, exchange_data=exchange_data)
+    print("queue created")
     transport_task(
         'email-queue',
         email_queue,
