@@ -33,7 +33,8 @@ services:
     environment:
       - CELERY_BROKER_URL=amqp://myuser:mypass@rabbitmq:5672/myvhost
       - FROM_EMAIL=your-email@host.com
-      - EMAIL_PASS=your-email-password
+      - SMTP_USER=your-smtp-user
+      - SMTP_PASS=your-email-password
       - SMTP_HOST=smtp.host.com
       - SMTP_PORT=smtp-port
       - FROM_NAME=Your-Name

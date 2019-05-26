@@ -13,6 +13,6 @@ def mailer(to_email, subject, body):
     s = smtplib.SMTP(os.environ.get('SMTP_HOST'), int(os.environ.get('SMTP_PORT')))
     s.ehlo()
     s.starttls()
-    s.login(os.environ.get('FROM_EMAIL'), os.environ.get('EMAIL_PASS'))
+    s.login(os.environ.get('SMTP_USER'), os.environ.get('SMTP_PASS'))
     s.sendmail('crons@mytonic.com', to_email, msg.as_string())
     s.quit()
