@@ -25,8 +25,16 @@ body:
 {
 	"email": "rhasan.amiya@gmail.com",
 	"subject": "Test subject",
-	"body": "Sample body\n try again",
-	"priority": "high"
+	"body": "Sample body\ntry again",
+	"priority": "high",
+	"queue_data": {
+		"name": "invoice_queue",
+		"routing_key": "invoice"
+	},
+	"exchange_data": {
+		"name": "telenor-health",
+		"type": "direct"
+	}
 }
 ```
 
