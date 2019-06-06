@@ -1,7 +1,7 @@
 import os
 from aiohttp import web
 from kombu import Connection, Producer, Exchange, Queue
-from helpers import create_queue
+from helpers import invoice_queue
 
 PIORITY_CONFIG = {
     "high": 9,
@@ -44,14 +44,11 @@ async def healthCheck(request):
 async def send_email(request):
     body = await request.json()
     data = {
-        "to_email": body.get("email"),
-        "subject": body.get("subject"),
+        "customer": body.get("customer"),
+        "order_number": body.get("order_number"),
         "body": body.get("body")
     }
-    queue_data = body.get("queue_data")
-    exchange_data = body.get("exchange_data")
-    email_queue = create_queue(queue_data=queue_data, exchange_data=exchange_data)
-    print("queue created")
+    email_queue = invoice_queue()
     transport_task(
         'email-queue',
         email_queue,
@@ -64,5 +61,5 @@ async def send_email(request):
 app = web.Application()
 app.add_routes([
     web.get('/', healthCheck),
-    web.post('/send-email', send_email),
+    web.post('/api/send-invoice', send_email),
 ])

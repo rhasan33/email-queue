@@ -1,0 +1,67 @@
+<style>
+    @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 300;
+        src: local('Open Sans Light'), local('OpenSans-Light'), url(http://fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTa-j2U0lmluP9RWlSytm3ho.woff2) format('woff2');
+        unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+    }
+    .body {
+        width: 90%;
+        margin: auto;
+        font-family: 'Open Sans', 'Helvetica', sans-serif; 
+        font-size: 14pt;
+        color: #075D72;
+    }
+    .header {
+        margin: auto;
+        background: #42c2f4;
+        text-align: center;
+        vertical-align: -webkit-baseline-middle;
+    }
+    a:link { color: #B40057; text-decoration: underline}
+    a:visited { color: #542A95; text-decoration: none}
+    a:hover { color: #B40057; background-color:#C4FFF9; text-decoration: underline }
+    .img {
+        display: block;
+        margin: auto;
+        max-width: 300px;
+        width: 80%;
+        padding: 20px;
+    }
+    .content{
+        padding: 20px 150px;
+        font-size: 15px;
+        color: #000000;
+    }
+    h4 {
+        font-size: 18px;
+    }
+    .footer {
+        text-align: center;
+        background: #42c2f4;
+        padding: 20px;
+    }
+</style>
+
+<div class="body">
+    <div class="header">
+        <img class="img" src="https://mytonic.com/sites/all/themes/tonicplus/dist/images/icons/tonic-logo.png.pagespeed.ce.SL5YqE-Mxw.png" alt="tonic logo"/>
+    </div>
+    <div class="content">
+        <h4>Dear Mr./Ms. {{ name }},</h4>
+        <p>Please find your attached invoice. Thanks for choosing tonic!!</p>
+        <p>Your order will be ready to be shipped to <b>{{ address }}</b></p>
+        <br/><br/><br/>
+        Invoice Number: <b>{{ order_number }}</b><br/>
+        Invoice Date: <b>{{ date }}</b><br/>
+        <br/><br/><br/>
+        Sincerely,<br/>
+        Telenor Health, Bangladesh
+    </div>
+    <div class="footer">
+        <p>House 257, Road-1, Dhaka 1229</p>
+    </div>
+</div>
+
+<p>

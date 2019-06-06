@@ -8,7 +8,7 @@ from .send_email import mailer
 logger = logging.getLogger(__name__)
 
 exchange = Exchange('telenor-health', type='direct')
-email_queue = Queue(name='email-sending-queue', exchange=exchange, routing_key='send-email')
+email_queue = Queue(name='invoice_queue', exchange=exchange, routing_key='invoice')
 
 celery_app = Celery(
     'consumer',
@@ -26,7 +26,7 @@ class EmailConsumer(bootsteps.ConsumerStep):
 
     def handle_message(self, body, message):
         data = body.get("kwargs")
-        mailer(data["to_email"], data["subject"], data["body"])
+        mailer(data.get("customer"), data.get("order_number"))
         logger.info("email sent.")
         message.ack()
 

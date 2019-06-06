@@ -4,3 +4,5 @@ run.sh
 *.pyc
 *.yml
 test*.*
+*.pdf
+*.pkl
