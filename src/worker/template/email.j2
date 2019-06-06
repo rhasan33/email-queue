@@ -10,14 +10,17 @@
         width: 90%;
         margin: auto;
         font-family: 'Open Sans', 'Helvetica', sans-serif; 
-        font-size: 14pt;
-        color: #075D72;
+        font-size: 14px;
+        color: #fff;
+        background: #fff;
+        border-radius: 15px;
     }
     .header {
         margin: auto;
         background: #42c2f4;
         text-align: center;
         vertical-align: -webkit-baseline-middle;
+        border-radius: 15px 15px 0px 0px;
     }
     a:link { color: #B40057; text-decoration: underline}
     a:visited { color: #542A95; text-decoration: none}
@@ -30,7 +33,7 @@
         padding: 20px;
     }
     .content{
-        padding: 20px 150px;
+        padding: 20px 50px;
         font-size: 15px;
         color: #000000;
     }
@@ -40,13 +43,15 @@
     .footer {
         text-align: center;
         background: #42c2f4;
-        padding: 20px;
+        padding: 10px;
     }
 </style>
 
 <div class="body">
     <div class="header">
-        <img class="img" src="https://mytonic.com/sites/all/themes/tonicplus/dist/images/icons/tonic-logo.png.pagespeed.ce.SL5YqE-Mxw.png" alt="tonic logo"/>
+        <a target="_blank" href="https://mytonic.com/">
+            <img class="img" src="https://mytonic.com/sites/all/themes/tonicplus/dist/images/icons/tonic-logo.png.pagespeed.ce.SL5YqE-Mxw.png" alt="tonic logo"/>
+        </a>
     </div>
     <div class="content">
         <h4>Dear Mr./Ms. {{ name }},</h4>
@@ -63,5 +68,3 @@
         <p>House 257, Road-1, Dhaka 1229</p>
     </div>
 </div>
-
-<p>

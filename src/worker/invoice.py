@@ -4,7 +4,7 @@ from fpdf import FPDF
 
 
 class InvoiceGenerator:
-    def __init__(self, customer, items, delivery_fee, order_number):
+    def __init__(self, customer, items, delivery_fee, order_number, today):
         """
         customer object
         {
@@ -14,13 +14,10 @@ class InvoiceGenerator:
         }
         """
         self._customer = customer
+        self._today = today
 
         # delivery fee for the order
         self._delivery_fee = delivery_fee
-
-        # formated date. str type
-        today = datetime.datetime.today()
-        self._today = str(today.strftime("%d/%m/%Y"))
 
         font_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'fonts')
         image_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'images')
@@ -178,8 +175,12 @@ class InvoiceGenerator:
         self.setup_cell(grey_clr, 'robotoB', self._medium_font, 'L', "(+88) 01944443851", y_val=15.0)
         self.setup_cell(grey_clr, 'roboto',self._para_font, 'L', "Address: Confidence Centre (12th floor), Kha-9 Pragoti Sarani, Shazadpur", y_val=15.0)
         self.setup_cell(grey_clr, 'roboto',self._para_font, 'L', "Gulshan. Dhaka - 1212, Bangladesh", y_val=10.0)
-        os.chdir('/tmp/')
-        self._pdf.output('{}.pdf'.format(self._order_number), 'F')
+        # create pdfs dir if not exists
+        try:
+            os.mkdir("pdfs")
+        except FileExistsError:
+            pass
+        self._pdf.output('./pdfs/{}.pdf'.format(self._order_number), 'F').encode('latin-1')
 
 if __name__ == "__main__":
     customer = {
@@ -200,12 +201,13 @@ if __name__ == "__main__":
         }
     ]
     delivery = 60.00
+    today = datetime.datetime.today()
+    str_today = str(today.strftime("%d/%m/%Y"))
 
-    inv = InvoiceGenerator(customer, items, delivery, "Order-20178-2019")
+    inv = InvoiceGenerator(customer, items, delivery, "Order-20178-2019", str_today)
     inv.create_invoice()
     import sys
     if sys.platform.startswith("linux"):
-        os.chdir('/tmp')
-        os.system("xdg-open Order-20178-2019.pdf")
+        os.system("xdg-open ./pdfs/Order-20178-2019.pdf")
     else:
         os.system("./invoice.pdf")

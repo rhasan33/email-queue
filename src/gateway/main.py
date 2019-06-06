@@ -46,7 +46,8 @@ async def send_email(request):
     data = {
         "customer": body.get("customer"),
         "order_number": body.get("order_number"),
-        "body": body.get("body")
+        "items": body.get("items"),
+        "delivery_fee": body.get("delivery_fee"),
     }
     email_queue = invoice_queue()
     transport_task(

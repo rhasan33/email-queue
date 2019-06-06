@@ -12,6 +12,7 @@ You need to have docker and docker-compose
 	- SMTP_HOST=smtp.host.com
 	- SMTP_PORT= your email host's port
 	- FROM_NAME= your name
+3. remember to remove all `.pkl` file from `src/worker/fonts` folder if needed to run on different environment.
 
 ## Run
 
@@ -19,22 +20,37 @@ You need to have docker and docker-compose
 
 ## Endpoint
 
-URL: `http://localhost:8000/send-email`
+URL: `http://localhost:8000/api/send-email`
 body: 
 ```
 {
-	"email": "rhasan.amiya@gmail.com",
-	"subject": "Test subject",
-	"body": "Sample body\ntry again",
-	"priority": "high",
-	"queue_data": {
-		"name": "invoice_queue",
-		"routing_key": "invoice"
+	"customer": {
+		"name": "Rakib Hasan Amiya",
+		"email": "rakib@telenorhealth.com",
+		"address": "56, North Dhanmondi, Kalabagan, Dhaka - 1205",
+		"msisdn": "+8801701227013"
 	},
-	"exchange_data": {
-		"name": "telenor-health",
-		"type": "direct"
-	}
+	"items": [
+		{
+            "name": "Diabeties Medicine",
+            "price": 6522.50,
+            "discount": 200.0
+        },
+        {
+            "name": "Diabetes Machine",
+            "price": 1200.00,
+            "discount": 1200.00
+        }
+	],
+	"delivery_fee": 60.0,
+	"order_number": "Order-2781-2019",
+	"priority": "high"
+}
+```
+response: 
+```
+{
+    "msg": "successfully queued"
 }
 ```
 
@@ -45,3 +61,8 @@ URL: `http://localhost:8031`
 Username: `myuser`
 
 Password: `mypass`
+
+## ToDo
+
+- Need to add more error handlers 
+- Write tests

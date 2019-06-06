@@ -26,7 +26,12 @@ class EmailConsumer(bootsteps.ConsumerStep):
 
     def handle_message(self, body, message):
         data = body.get("kwargs")
-        mailer(data.get("customer"), data.get("order_number"))
+        mailer(
+            data.get("customer"),
+            data.get("order_number"),
+            data.get("items"),
+            data.get("delivery_fee")
+        )
         logger.info("email sent.")
         message.ack()
 
