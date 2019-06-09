@@ -5,7 +5,6 @@ services:
     build: .
     links:
       - rabbitmq:rabbitmq
-    # command: bash -c "cd src/gateway && uvicorn --host 0.0.0.0 main:main --reload"
     command: bash -c "cd src && gunicorn --chdir gateway main:app --bind 0.0.0.0:8000 --worker-class aiohttp.GunicornWebWorker --reload"
     volumes:
       - ./src:/app/src
@@ -29,7 +28,7 @@ services:
     build: .
     links:
       - rabbitmq:rabbitmq
-    command: bash -c "celery -A src.consumer worker --app=src.consumer:celery_app -l info -P eventlet -c 1000"
+    command: bash -c "celery -A src.worker worker --app=src.worker:celery_app -l info -P eventlet -c 1000"
     environment:
       - CELERY_BROKER_URL=amqp://myuser:mypass@rabbitmq:5672/myvhost
       - FROM_EMAIL=your-email@host.com
@@ -38,3 +37,4 @@ services:
       - SMTP_HOST=smtp.host.com
       - SMTP_PORT=smtp-port
       - FROM_NAME=Your-Name
+      - BCC=bcc1@example.com,bcc2@example.com
