@@ -20,7 +20,7 @@ You need to have docker and docker-compose
 
 ## Endpoint
 
-URL: `http://localhost:8000/api/send-email`
+URL: `http://localhost:8000/api/send-invoice`
 body: 
 ```
 {
