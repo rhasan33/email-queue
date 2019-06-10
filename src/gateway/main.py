@@ -1,7 +1,8 @@
 import os
 from aiohttp import web
 from kombu import Connection, Producer, Exchange, Queue
-from helpers import invoice_queue
+from helpers.helpers import invoice_queue
+from middlewares.middlewares import authentication, validation, response_handler
 
 PIORITY_CONFIG = {
     "high": 9,
@@ -48,6 +49,7 @@ async def send_email(request):
         "order_number": body.get("order_number"),
         "items": body.get("items"),
         "delivery_fee": body.get("delivery_fee"),
+        "bcc": body.get("bcc", []),
     }
     email_queue = invoice_queue()
     transport_task(
@@ -56,10 +58,10 @@ async def send_email(request):
         body.get("priority"),
         kwargs=data
     )
-    return web.json_response({"msg": "successfully queued"}, status=201)
+    return web.HTTPCreated(text="queue created successfully.")
 
 
-app = web.Application()
+app = web.Application(middlewares=[response_handler, authentication, validation])
 app.add_routes([
     web.get('/', healthCheck),
     web.post('/api/send-invoice', send_email),

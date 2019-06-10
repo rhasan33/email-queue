@@ -44,6 +44,7 @@ body:
 	],
 	"delivery_fee": 60.0,
 	"order_number": "Order-2781-2019",
+	"bcc": ["your-email1.email.com", "your-email2.email.com"]
 	"priority": "high"
 }
 ```

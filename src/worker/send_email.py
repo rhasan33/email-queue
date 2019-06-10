@@ -21,7 +21,7 @@ def render_template(template, customer):
     templ = templateEnv.get_template(template)
     return templ.render(customer)
 
-def mailer(customer, order_number, items, delivery_fee):
+def mailer(customer, order_number, items, delivery_fee, bcc):
     """
     customer = {
         "name": "Customer Name",
@@ -51,14 +51,11 @@ def mailer(customer, order_number, items, delivery_fee):
 
     # setup email
     to = customer.get("email")
-    bcc = os.environ.get('BCC')
-    recipients = bcc.split(",") + [to]
 
     email = MIMEMultipart()
     email['Subject'] = subject
     email['From'] = "{} <{}>".format(from_name, from_email)
     email['To'] = to
-    email['Bcc'] = bcc
     
     # attach email body
     email.attach(MIMEText(html, 'html'))
@@ -79,7 +76,7 @@ def mailer(customer, order_number, items, delivery_fee):
     s.ehlo()
     s.starttls()
     s.login(os.environ.get('SMTP_USER'), os.environ.get('SMTP_PASS'))
-    s.sendmail(from_email, recipients, email.as_string())
+    s.sendmail(from_email, [to] + bcc, email.as_string())
     s.quit()
 
     # deleting pdf file from the server

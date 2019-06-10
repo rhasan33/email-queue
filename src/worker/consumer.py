@@ -30,8 +30,10 @@ class EmailConsumer(bootsteps.ConsumerStep):
             data.get("customer"),
             data.get("order_number"),
             data.get("items"),
-            data.get("delivery_fee")
+            data.get("delivery_fee"),
+            data.get("bcc"),
         )
+        logger.info(data.get("bcc"))
         logger.info("email sent.")
         message.ack()
 
