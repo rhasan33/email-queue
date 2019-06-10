@@ -83,9 +83,9 @@ async def validation(request, handler):
             return web.HTTPBadRequest(text="Customer email is not valid.")
         
         if body["bcc"]:
-            invalid_bcc = [bcc for bcc in body["bcc"] if bcc not in validate_email(bcc)]
+            invalid_bcc = [validate_email(bcc) for bcc in body["bcc"]]
             if "False" in invalid_bcc:
-                return web.HTTPBadRequest(text="bcc email: '{}' is not valid".format(invalid_bcc))
+                return web.HTTPBadRequest(text="bcc email is not valid")
     except KeyError as err:
         return web.HTTPBadRequest(text="key: '{}' is mandatory".format(err))
     resp = await handler(request)
